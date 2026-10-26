@@ -1,0 +1,492 @@
+/* ===== Base ===== */
+@font-face {
+  font-family: "Pricedown";
+  src:
+    url("fonts/pricedown_black.otf") format("opentype"),
+    url("fonts/pricedown_black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --neon-pink: #ff2d78;
+  --neon-cyan: #2de2e6;
+  --neon-purple: #b026ff;
+  --sunset-orange: #ff9e00;
+  --bg-dark: #12081f;
+  --card-bg: rgba(18, 8, 31, 0.75);
+  --text: #ffe9f4;
+  /* Fallback sur Arial Black/Impact tant que Pricedown n'est pas installée */
+  --font-display: "Pricedown", "Arial Black", Impact, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg-dark);
+  overflow-x: hidden;
+}
+
+/* ===== Ciel néon (adouci) ===== */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    #0d0620 0%,
+    #1c0b38 35%,
+    #33124e 65%,
+    #4d1a4e 85%,
+    #66224a 100%
+  );
+}
+
+.sky::after {
+  /* grille rétro façon synthwave */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35vh;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(45, 226, 230, 0.08) 0 2px,
+      transparent 2px 80px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      rgba(45, 226, 230, 0.08) 0 2px,
+      transparent 2px 60px
+    );
+  mask-image: linear-gradient(180deg, transparent 0%, #000 60%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 60%);
+}
+
+.sun {
+  position: absolute;
+  top: 14vh;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    #d9a253 0%,
+    #b86a3d 45%,
+    #7e2d55 75%,
+    transparent 76%
+  );
+  filter: blur(2px);
+  opacity: 0.55;
+  box-shadow: 0 0 50px 12px rgba(122, 40, 90, 0.35);
+}
+
+/* ===== Header ===== */
+.header {
+  text-align: center;
+  padding: 48px 16px 24px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.logo-gta {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  letter-spacing: 0.35em;
+  color: var(--text);
+  text-shadow: 0 0 8px rgba(45, 226, 230, 0.3);
+}
+
+.logo-vi {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 8rem);
+  background: linear-gradient(180deg, #f5d76e, #d97a2e 50%, #c23a68);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(194, 58, 104, 0.35));
+}
+
+.tagline {
+  margin-top: 8px;
+  font-style: italic;
+  letter-spacing: 0.2em;
+  color: #9fd8da;
+  text-shadow: 0 0 6px rgba(45, 226, 230, 0.3);
+}
+
+/* ===== Compteur ===== */
+.countdown {
+  margin: 32px auto 0;
+  max-width: 560px;
+}
+
+.countdown-label {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.countdown-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 86px;
+  padding: 12px 10px;
+  border: 1px solid rgba(255, 158, 0, 0.5);
+  border-radius: 10px;
+  background: var(--card-bg);
+  box-shadow:
+    0 0 10px rgba(255, 45, 120, 0.15),
+    inset 0 0 10px rgba(255, 158, 0, 0.08);
+}
+
+.countdown-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: #f5d76e;
+  text-shadow: 0 0 6px rgba(255, 158, 0, 0.35);
+}
+
+.countdown-unit {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--neon-cyan);
+}
+
+/* ===== Grille du calendrier ===== */
+.calendar {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 840px) {
+  .calendar {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+/* ===== Portes ===== */
+.door {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  cursor: pointer;
+  perspective: 800px;
+  border: 1px solid rgba(255, 158, 0, 0.35);
+  background: rgba(18, 8, 31, 0.85);
+  box-shadow:
+    0 0 10px rgba(120, 40, 160, 0.2),
+    inset 0 0 10px rgba(120, 40, 160, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.door:hover:not(.locked) {
+  transform: translateY(-4px);
+  box-shadow: 0 0 18px rgba(255, 45, 120, 0.35);
+}
+
+.door-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: #f5d76e;
+  text-shadow: 0 0 6px rgba(255, 158, 0, 0.4);
+}
+
+.door-month {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: #9fd8da;
+  text-shadow: 0 0 4px rgba(45, 226, 230, 0.3);
+}
+
+.door.locked {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(0.5);
+}
+
+.door.opened {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(45, 226, 230, 0.3);
+}
+
+/* ===== Animation d'ouverture façon GTA ===== */
+
+/* Petit "pop" de la case + reflet balayé, comme une mission validée */
+.door.pop {
+  animation: door-pop 0.45s ease-out;
+  overflow: hidden;
+}
+
+@keyframes door-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.08);
+    box-shadow: 0 0 24px rgba(245, 215, 110, 0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.door.pop::before {
+  /* reflet néon qui balaie la case, discret */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 70%
+  );
+  animation: door-shine 0.45s ease-out;
+  pointer-events: none;
+}
+
+@keyframes door-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Étoiles de recherche : apparaissent l'une après l'autre puis s'estompent */
+.door-stars {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.door-stars .star {
+  font-size: 0.85rem;
+  line-height: 1;
+  color: #f5d76e;
+  text-shadow: 0 0 8px rgba(245, 215, 110, 0.8);
+  opacity: 0;
+  animation: star-pop 1.4s ease-out forwards;
+}
+
+@keyframes star-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-60deg);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1.4) rotate(0deg);
+  }
+  22% {
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Entrée de la modale façon "annonce de zone" GTA (glisse + fondu) */
+.modal:not(.hidden) .modal-card {
+  animation: modal-zoom-in 0.3s ease-out;
+}
+
+@keyframes modal-zoom-in {
+  0% {
+    transform: translateX(30px) scale(0.97);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Respect des préférences d'accessibilité : pas d'animation si demandé */
+@media (prefers-reduced-motion: reduce) {
+  .door.pop,
+  .door.pop::before,
+  .door-stars .star,
+  .modal:not(.hidden) .modal-card {
+    animation: none;
+  }
+}
+
+.door.opened .door-number {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 6px rgba(45, 226, 230, 0.4);
+}
+
+/* ===== Modale ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 2, 20, 0.55);
+}
+
+.modal-card {
+  position: relative;
+  max-width: 480px;
+  width: calc(100% - 48px);
+  padding: 40px 32px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 45, 120, 0.4);
+  background: linear-gradient(160deg, #160a2c, #2e1245 70%);
+  box-shadow: 0 0 30px rgba(122, 40, 90, 0.35);
+}
+
+.modal-day {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin-bottom: 16px;
+}
+
+.modal-message {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Bloc défi dans la modale */
+.modal-challenge-block {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px dashed rgba(45, 226, 230, 0.45);
+  background: rgba(13, 6, 32, 0.6);
+  text-align: left;
+}
+
+.modal-challenge-block.hidden {
+  display: none;
+}
+
+.modal-challenge-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin-bottom: 8px;
+}
+
+.modal-challenge {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--neon-pink);
+  font-size: 2rem;
+  cursor: pointer;
+  text-shadow: 0 0 10px rgba(255, 45, 120, 0.8);
+}
+
+/* ===== Bouton son ===== */
+.sound-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 60;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(18, 8, 31, 0.85);
+  border: 1px solid rgba(255, 158, 0, 0.35);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.sound-toggle:hover {
+  box-shadow: 0 0 14px rgba(255, 45, 120, 0.35);
+}
+
+/* ===== Footer ===== */
+.footer {
+  padding: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 233, 244, 0.6);
+}

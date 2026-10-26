@@ -1,12 +1,72 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oh shit it's the advent calendar</title>
+    <title>Advent Calendar — GTA VI</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Ciel néon en arrière-plan -->
+    <div class="sky">
+      <div class="sun"></div>
+      <div class="stars"></div>
+    </div>
+
+    <button class="sound-toggle" id="sound-toggle" aria-label="Activer ou couper le son">🔊</button>
+
+    <header class="header">
+      <h1 class="logo">
+        <span class="logo-gta">Grand Theft Auto</span>
+        <span class="logo-vi">VI</span>
+      </h1>
+      <p class="tagline">Welcome back to Vice City</p>
+
+      <div class="countdown" id="countdown">
+        <p class="countdown-label">Sortie de GTA VI dans</p>
+        <div class="countdown-grid">
+          <div class="countdown-box">
+            <span class="countdown-value" id="cd-days">--</span>
+            <span class="countdown-unit">jours</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-value" id="cd-hours">--</span>
+            <span class="countdown-unit">heures</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-value" id="cd-minutes">--</span>
+            <span class="countdown-unit">min</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-value" id="cd-seconds">--</span>
+            <span class="countdown-unit">sec</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="calendar" id="calendar">
+      <!-- Les portes sont générées par script.js -->
+    </main>
+
+    <footer class="footer">
+      <p>24 portes. Une surprise par jour. Restez dans les limites du Vice.</p>
+    </footer>
+
+    <!-- Modale surprise -->
+    <div class="modal hidden" id="modal" aria-hidden="true">
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <button class="modal-close" id="modal-close" aria-label="Fermer">&times;</button>
+        <p class="modal-day" id="modal-day">Jour 1</p>
+        <p class="modal-message" id="modal-message">Surprise !</p>
+        <div class="modal-challenge-block hidden" id="modal-challenge-block">
+          <p class="modal-challenge-title">🎯 Défi du jour</p>
+          <p class="modal-challenge" id="modal-challenge">Le défi apparaît ici.</p>
+        </div>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
